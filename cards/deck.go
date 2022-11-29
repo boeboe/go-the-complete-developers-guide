@@ -9,8 +9,8 @@ import (
 	"time"
 )
 
-/* Create a new type of 'deck' which is a slice of strings. */
-type deck []string
+/* Create a new type of 'deck' which is a slice of cards. */
+type deck []card
 
 /* Create a new deck */
 func newDeck() deck {
@@ -21,7 +21,7 @@ func newDeck() deck {
 
 	for _, suit := range cardSuits {
 		for _, value := range cardValues {
-			cards = append(cards, fmt.Sprintf("%s of %s", value, suit))
+			cards = append(cards, card{suit: suit, value: value})
 		}
 	}
 	return cards
@@ -41,12 +41,20 @@ func deal(d deck, handSize int) (deck, deck) {
 
 /* Convert deck to a single string */
 func (d deck) toString() string {
-	return strings.Join(d, "\n")
+	s := ""
+	for _, card := range d {
+		s += fmt.Sprintf("%v\n", card.toString())
+	}
+	return s
 }
 
-/* Convert deck to a single string */
-func fromString(deckString string) deck {
-	return strings.Split(deckString, "\n")
+/* Convert string to a deck */
+func deckFromString(deckString string) deck {
+	cards := deck{}
+	for _, cs := range strings.Split(strings.TrimSuffix(deckString, "\n"), "\n") {
+		cards = append(cards, cardFromString(cs))
+	}
+	return cards
 }
 
 /* Save a deck to a file */
@@ -61,7 +69,7 @@ func loadDeckFromFile(filename string) deck {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	return fromString(string(bs))
+	return deckFromString(string(bs))
 }
 
 /* Shuffle a deck */

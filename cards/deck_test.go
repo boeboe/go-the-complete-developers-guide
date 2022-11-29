@@ -12,11 +12,11 @@ func TestNewDeck(t *testing.T) {
 		t.Errorf("expected deck of size 52, got %d instead", len(nd))
 	}
 
-	if nd[0] != "Ace of Spades" {
+	if nd[0].toString() != "Ace of Spades" {
 		t.Errorf("expected card %q, got %q instead", "Ace of Spades", nd[0])
 	}
 
-	if nd[51] != "King of Clubs" {
+	if nd[51].toString() != "King of Clubs" {
 		t.Errorf("expected card %q, got %q instead", "King of Clubs", nd[51])
 	}
 }
