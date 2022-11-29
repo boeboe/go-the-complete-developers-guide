@@ -1,12 +1,21 @@
 package main
 
 func main() {
-	cards := deck{"Ace of Diamonds", newCard()}
-	cards = append(cards, "Six of Spades")
+	cards := newDeck()
 
-	cards.print()
-}
+	// cards.shuffle().print()
 
-func newCard() string {
-	return "Five of Diamonds"
+	hand, _ := deal(cards, 5)
+	hand.shuffle()
+	hand.print()
+
+	// hand.print()
+	// leftover.print()
+
+	// cards.saveToFile("cards.log")
+	// hand.saveToFile("hand.log")
+	// leftover.saveToFile("leftover.log")
+
+	// test := loadDeckFromFile("hand.log")
+	// test.print()
 }
